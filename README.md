@@ -58,6 +58,14 @@ Team project with Wiktor Prządka.
 
 ---
 
+## Videos
+Video of the robot wall follower: 
+https://github.com/user-attachments/assets/f3426d07-0943-4877-a8b9-4efd76e99657
+
+Video of the inverted pendulum:
+https://github.com/user-attachments/assets/4ed23280-cda6-41cb-a38d-dce45fdcdf94
+
+
 ### About the reports
 
 Each subfolder's `report.pdf` was originally written for university
