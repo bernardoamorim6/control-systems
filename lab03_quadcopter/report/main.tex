@@ -1,0 +1,114 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+
+\usepackage{amsmath}
+
+\setcounter{MaxMatrixCols}{12}
+
+\title{MAAPC Quadcopter Report}
+\author{Wiktor Przadka}
+\date{April 2023}
+
+\begin{document}
+
+\maketitle
+
+% \section{Introduction}
+
+
+\section{Equilibrium point}
+
+The state of the system is given by the vector \(\mathbf{x} = [x, y, z, v_x, v_y, v_z, \phi, \theta, \psi, \omega_x, \omega_y, \omega_z]^T\)
+The control is defined as \(\mathbf{u} = [v_1^2, v_2^2, v_2^3, v^2_4]^T\)
+
+\begin{align}
+    \dot{x} &= v_x = 0\\
+    \dot{y} &= v_y = 0\\
+    \dot{z} &= v_z = 0\\
+    \dot{v}_x &= 0\\
+    \dot{v}_y &= 0\\
+    \dot{v}_z &= -g + \frac{k\,c_m}{m} v_1^2 + \frac{k\,c_m}{m} v_2^2 + \frac{k\,c_m}{m} v_3^2 + \frac{k\,c_m}{m} v_4^2\\ 
+    \dot{\phi} &= \omega_x = 0\\
+    \dot{\theta} &= \omega_y = 0\\
+    \dot{\psi} &= \omega_z = 0\\
+    \dot{\omega}_x &= \frac{L\,k\,c_m}{I_{xx}} v_1^2 - \frac{L\,k\,c_m}{I_{xx}} v_3^2\\
+    \dot{\omega}_y &= \frac{L\,k\,c_m}{I_{yy}} v_2^2 - \frac{L\,k\,c_m}{I_{yy}} v_4^2\\
+    \dot{\omega}_z &= \frac{b\,c_m}{I_{zz}} v_1^2 - \frac{b\,c_m}{I_{zz}} v_2^2 + \frac{b\,c_m}{I_{zz}} v_3^2 - \frac{b\,c_m}{I_{zz}} v_4^2\\
+\end{align}
+
+\section{Linearization}
+
+Linearization near the equilibrium point
+
+\begin{align}
+    \Delta \mathbf{\dot{x}} = A\,\Delta \mathbf{x} + B\,\Delta \mathbf{u}
+\end{align}
+
+% \begin{align}
+%     A =
+%     \begin{bmatrix}
+%     % x, y, z, v_x, v_y, v_z, \phi, \theta, \psi, \omega_x, \omega_y, \omega_z
+%         0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% x
+%         0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% y
+%         0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\% z
+%         % 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% v_x
+%         % 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% v_y
+%         % 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% v_z
+%         % 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% v_z
+%         % 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% v_z
+%         % 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% v_z
+%         % 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% v_z
+%         % 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% v_z
+%         % 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% v_z
+%     \end{bmatrix}
+% \end{align}
+
+% \begin{align}
+%     B =
+%     \begin{bmatrix}
+%     % x, y, z, v_x, v_y, v_z, \phi, \theta, \psi, \omega_x, \omega_y, \omega_z
+%         0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% x
+%         0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% y
+%         0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\% z
+%         % 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% v_x
+%         % 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% v_y
+%         % 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% v_z
+%         % 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% v_z
+%         % 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% v_z
+%         % 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% v_z
+%         % 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% v_z
+%         % 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% v_z
+%         % 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% v_z
+%     \end{bmatrix}
+% \end{align}
+
+% \begin{align}
+%     C =
+%     \begin{bmatrix}
+%     % x, y, z, v_x, v_y, v_z, \phi, \theta, \psi, \omega_x, \omega_y, \omega_z
+%         1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% x
+%         0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% y
+%         0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\% z
+%         0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\% \phi
+%         0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\% \theta
+%         0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\% \psi
+%     \end{bmatrix}
+% \end{align}
+
+To make sparse matrices easier to read, we are going to use the notation \(\cdot\) for cells including zeros in the matrix.
+
+\begin{align}
+    C =
+    \begin{bmatrix}
+    % x, y, z, v_x, v_y, v_z, \phi, \theta, \psi, \omega_x, \omega_y, \omega_z
+        1     & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\% x
+        \cdot & 1     & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\% y
+        \cdot & \cdot & 1     & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\% z
+        \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & 1     & \cdot & \cdot & \cdot & \cdot & \cdot \\% \phi
+        \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot &     1 & \cdot & \cdot & \cdot & \cdot \\% \theta
+        \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & 1     & \cdot & \cdot & \cdot \\% \psi
+    \end{bmatrix}
+\end{align}
+
+\end{document}
+
